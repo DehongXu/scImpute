@@ -193,6 +193,12 @@ imputation_model8 = function(count, labeled, point, drop_thre = 0.5, Kcluster = 
   # find highly variable genes
   count_hv = find_hv_genes(count, I, J)
   print("searching candidate neighbors ... ")
+  
+  if(ncores == -1)
+  {
+    ncores = detect_ncores()
+  }
+  
   if(Kcluster == 1){
     clust = rep(1, J)
     if(J < 5000){
