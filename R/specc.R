@@ -84,6 +84,7 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
           diss[i,] <- res$withinss
         }
       }
+      stopCluster(cl)
       print("end of for loop")
       print(Sys.time())
       
