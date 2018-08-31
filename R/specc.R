@@ -67,8 +67,8 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
       
       cl = makeCluster(20, outfile="")
       registerDoParallel(cl)
-      foreach (i = 1:length(tmpsig))%dopar%
-      # for (i in 1:length(tmpsig)) 
+      # foreach (i = 1:length(tmpsig))%dopar%
+      for (i in 1:length(tmpsig)) 
       {
         ka <- exp((-(ktmp^2))/(2*(tmpsig[i]^2)))
         diag(ka) <- 0
@@ -87,6 +87,8 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
       stopCluster(cl)
       print("end of for loop")
       print(Sys.time())
+      print("diss: ")
+      print(diss)
       
       ms <- which.min(rowSums(diss))
       kernel <- rbfdot((tmpsig[ms]^(-2))/2)
