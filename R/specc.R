@@ -82,13 +82,15 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
           yi <- xi/sqrt(rowSums(xi^2))
           res <- kmeans(yi, centers, iterations)
           diss[i,] <- res$withinss
+          print(i)
+          print(res$withinss)
         }
       }
       stopCluster(cl)
       print("end of for loop")
       print(Sys.time())
-      print("diss: ")
-      print(diss)
+      # print("diss: ")
+      # print(diss)
       
       ms <- which.min(rowSums(diss))
       kernel <- rbfdot((tmpsig[ms]^(-2))/2)
