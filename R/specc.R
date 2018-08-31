@@ -67,7 +67,8 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
       
       cl = makeCluster(20, outfile="")
       registerDoParallel(cl)
-      foreach (i = 1:length(tmpsig))%dopar%
+     
+      list_diss=foreach (i = 1:length(tmpsig))%dopar%
       # for (i in 1:length(tmpsig)) 
       {
         ka <- exp((-(ktmp^2))/(2*(tmpsig[i]^2)))
@@ -81,9 +82,10 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
           xi <- eigen(l,symmetric=TRUE)$vectors[,1:nc]
           yi <- xi/sqrt(rowSums(xi^2))
           res <- kmeans(yi, centers, iterations)
-          diss[i,] <- res$withinss
+          # diss[i,] <- res$withinss
           print(i)
           print(res$withinss)
+          return(res$withinss)
         }
       }
       stopCluster(cl)
@@ -91,7 +93,14 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
       print(Sys.time())
       # print("diss: ")
       # print(diss)
-      
+     
+      for(i in 1:length(list_diss))
+      {
+        diss[i,]=list_diss[[i]]
+      }
+      print("diss")
+      print(diss)
+     
       ms <- which.min(rowSums(diss))
       kernel <- rbfdot((tmpsig[ms]^(-2))/2)
       
