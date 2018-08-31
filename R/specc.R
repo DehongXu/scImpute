@@ -83,8 +83,8 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
           yi <- xi/sqrt(rowSums(xi^2))
           res <- kmeans(yi, centers, iterations)
           # diss[i,] <- res$withinss
-          print(i)
-          print(res$withinss)
+          # print(i)
+          # print(res$withinss)
           return(res$withinss)
         }
       }
@@ -98,8 +98,8 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
       {
         diss[i,]=list_diss[[i]]
       }
-      print("diss")
-      print(diss)
+      # print("diss")
+      # print(diss)
      
       ms <- which.min(rowSums(diss))
       kernel <- rbfdot((tmpsig[ms]^(-2))/2)
