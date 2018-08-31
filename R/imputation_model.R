@@ -123,7 +123,7 @@ find_neighbors = function(count_hv, labeled, J, Kcluster = NULL,
     
     ## clustering
     non_out = setdiff(1:J, outliers)
-    spec_res = specc_p(t(mat_pcs[, non_out]), centers = Kcluster, kernel = "rbfdot")
+    spec_res = specc(t(mat_pcs[, non_out]), centers = Kcluster, kernel = "rbfdot")
     print("cluster sizes:")
     print(spec_res@size)
     nbs = rep(NA, J)
