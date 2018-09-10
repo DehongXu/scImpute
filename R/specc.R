@@ -4,22 +4,22 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
 {
   print("specc starts")
   print(Sys.time())
-  x <- na.action(x)                 #把NA挑出来
+  x <- na.action(x)                 
   rown <- rownames(x)               
-  x <- as.matrix(x)                 #转为matrix（1列）
-  m <- nrow(x)                      #x的行数
+  x <- as.matrix(x)                 
+  m <- nrow(x)                      
   if (missing(centers))
     stop("centers must be a number or a matrix")
-  if (length(centers) == 1) {       #length查看list中元素个数
+  if (length(centers) == 1) {       
     nc <-  centers
-    if (m < centers)                #保证centers少于数据的个数
+    if (m < centers)                
       stop("more cluster centers than data points.")
   }
   else
-    nc <- dim(centers)[2]           #获得
+    nc <- dim(centers)[2]           
   
   
-  if(is.character(kpar)) {          #判断kpar是否是文字
+  if(is.character(kpar)) {          
     kpar <- match.arg(kpar,c("automatic","local"))
     
     if(kpar == "automatic")
@@ -28,19 +28,19 @@ specc_p<-function(x, centers, kernel = "rbfdot", kpar = "automatic",
         sam <- sample(1:m, floor(mod.sample*nystrom.sample))
       else
         sam <- sample(1:m, floor(mod.sample*m)) 
-      #size=floor(mod.sample*m),在1:m的范围内随机选
       
-      sx <- unique(x[sam,])       #其实没用，只是保证没有重复
-      ns <- dim(sx)[1]            #取出行数，其实就是floor(mod.sample*m)
-      dota <- rowSums(sx*sx)/2    #每个位置平方，每行求和，除以2
-      ktmp <- crossprod(t(sx))    #sx*t(sx)内积 
+      
+      sx <- unique(x[sam,])       
+      ns <- dim(sx)[1]            
+      dota <- rowSums(sx*sx)/2    
+      ktmp <- crossprod(t(sx))     
       for (i in 1:ns)
         ktmp[i,]<- 2*(-ktmp[i,] + dota + rep(dota[i], ns))
-      #距离矩阵ktmp
+      
       
       ## fix numerical prob.
       ktmp[ktmp<0] <- 0
-      ktmp <- sqrt(ktmp)          #欧式距离矩阵
+      ktmp <- sqrt(ktmp)          
       print("distance matrix completes")
       print(Sys.time())
       
